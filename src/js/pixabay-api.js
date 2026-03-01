@@ -17,15 +17,16 @@ export default async function getImagesByQuery(query, page = 1) {
   const API = 'https://pixabay.com/api/';
 
   try {
-    const response = await axios(API, { params });
-    const { hits, totalHits } = response.data;
-    return { hits, totalHits };
+    const response = await axios.get(API, { params });
+    return response.data;
   } catch (error) {
     iziToast.error({
       title: 'Error',
       message: `An error occurred: ${error.message}`,
       position: 'topRight',
     });
-    return response.data;
+    return { hits: [], totalHits: 0, total: 0 };
   }
 }
+
+
