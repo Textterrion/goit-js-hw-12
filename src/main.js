@@ -65,6 +65,13 @@ form.addEventListener('submit', async event => {
       notFound(query);
       return;
     }
+    if (page * 18 >= totalHits) {
+      iziToast.info({
+        title: 'Info',
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
+    }
 
     createGallery(hits);
 
