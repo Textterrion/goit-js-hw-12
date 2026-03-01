@@ -90,16 +90,3 @@ export function notFound(query) {
   gallery.innerHTML = `<p class="not-found">No results found for "${query}". Please try again.</p>`;
 }
 
-export function smoothScroll() {
-  setTimeout(() => {
-    const card = document.querySelector('.gallery-item');
-    if (!card) return;
-
-    const cardHeight = card.getBoundingClientRect().height + 48;
-
-    window.scrollBy({
-      top: cardHeight * 2,
-      behavior: 'smooth',
-    });
-  }, 300);
-}

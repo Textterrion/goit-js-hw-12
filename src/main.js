@@ -10,13 +10,26 @@ import {
   showLoadMoreButton,
   hideLoadMoreButton,
   notFound,
-  smoothScroll,
 } from './js/render-functions.js';
 import getImagesByQuery from './js/pixabay-api';
 
 let page = 1;
 let totalHits = 0;
 let currentQuery = '';
+
+function smoothScroll() {
+  setTimeout(() => {
+    const card = document.querySelector('.gallery-item');
+    if (!card) return;
+
+    const cardHeight = card.getBoundingClientRect().height + 48;
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+  }, 300);
+}
 
 const form = document.querySelector('.form');
 const loadMoreButton = document.querySelector('.load-more-button');
@@ -29,6 +42,7 @@ form.addEventListener('submit', async event => {
 
   clearGallery();
   showLoader();
+  hideLoadMoreButton();
 
   const query = document.querySelector('[name="search-text"]').value.trim();
 
@@ -54,7 +68,7 @@ form.addEventListener('submit', async event => {
 
     createGallery(hits);
 
-    if (totalHits > 9) {
+    if (totalHits > 18) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
@@ -75,11 +89,22 @@ loadMoreButton.addEventListener('click', async () => {
   page += 1;
   showLoader();
   hideLoadMoreButton();
-  
+
   try {
     const { hits } = await getImagesByQuery(currentQuery, page);
     createGallery(hits);
     smoothScroll();
+    showLoadMoreButton();
+    if (page * 18 >= totalHits) {
+      iziToast.info({
+        title: 'Info',
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
+      hideLoader();
+      hideLoadMoreButton();
+      return;
+    }
   } catch (error) {
     iziToast.error({
       title: 'Error',
@@ -87,18 +112,6 @@ loadMoreButton.addEventListener('click', async () => {
       position: 'topRight',
     });
   } finally {
-    if (page * 9 >= totalHits) {
-      hideLoadMoreButton();
-      iziToast.info({
-        title: 'Info',
-        message: "We're sorry, but you've reached the end of search results.",
-        position: 'topRight',
-      });
-      hideLoader();
-      return;
-    }
-
     hideLoader();
-    showLoadMoreButton();
   }
 });

@@ -9,7 +9,7 @@ export default async function getImagesByQuery(query, page = 1) {
     key: '51578655-789f059cc57625b159c2f433b',
     q: query,
     image_type: 'photo',
-    per_page: 9,
+    per_page: 18,
     page,
     orientation: 'horizontal',
     safesearch: true,
@@ -26,6 +26,6 @@ export default async function getImagesByQuery(query, page = 1) {
       message: `An error occurred: ${error.message}`,
       position: 'topRight',
     });
-    return { hits: [], totalHits: 0 };
+    return response.data;
   }
 }
