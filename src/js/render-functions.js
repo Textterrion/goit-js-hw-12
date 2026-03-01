@@ -71,8 +71,35 @@ export function hideLoader() {
   }
 }
 
+export function showLoadMoreButton() {
+  const loadMoreButton = document.querySelector('.load-more-button');
+  if (loadMoreButton) {
+    loadMoreButton.classList.remove('hidden');
+  }
+}
+
+export function hideLoadMoreButton() {
+  const loadMoreButton = document.querySelector('.load-more-button');
+  if (loadMoreButton) {
+    loadMoreButton.classList.add('hidden');
+  }
+}
+
 export function notFound(query) {
   const gallery = document.querySelector('.gallery');
-  gallery.innerHTML =
-    `<p class="not-found">No results found for "${query}". Please try again.</p>`;
+  gallery.innerHTML = `<p class="not-found">No results found for "${query}". Please try again.</p>`;
+}
+
+export function smoothScroll() {
+  setTimeout(() => {
+    const card = document.querySelector('.gallery-item');
+    if (!card) return;
+
+    const cardHeight = card.getBoundingClientRect().height + 48;
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+  }, 300);
 }

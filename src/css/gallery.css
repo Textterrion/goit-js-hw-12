@@ -90,7 +90,7 @@
   52%, 100% { left: -5px; opacity: 0; }
 }
 
-.load-more {
+.load-more-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,6 +112,8 @@
   color: #fff;
   border: none;
   cursor: pointer;
+  margin: 0 auto;
+  margin-top: 32px;
 }
 .gallery-item:hover,
 .gallery-item:focus {
